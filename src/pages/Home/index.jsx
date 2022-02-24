@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { Col, Empty, Form, Input, Row, Table } from "antd";
 import formatDate from "../../utils/formatDate";
+import getIdFromUrl from "../../utils/getIdFromUrl";
 import PlanetsContext from "../../context/PlanetsContext";
 import { Container, FiltersContainer, FiltersPanel, FilmsTag } from "./styles";
 import FilmsContext from "../../context/FilmsContext";
+import { LinkButton } from "../../components";
 
 function Home() {
   const { filteredPlanets, fetchingPlanets, currentPage, setCurrentPage } =
@@ -84,9 +86,15 @@ function Home() {
       render: (date) => <p>{formatDate(date)}</p>,
     },
     {
-      title: "Link",
+      title: "Ver mais",
       dataIndex: "url",
       key: "url",
+      render: (url) => {
+        const planetId = getIdFromUrl(url);
+        return (
+          <LinkButton label="Visitar" onClick={() => console.log(planetId)} />
+        );
+      },
     },
   ];
   return (

@@ -1,2 +1,3 @@
-import Layout from './Layout'
-export { Layout };
+import Layout from "./Layout";
+import LinkButton from "./LinkButton";
+export { Layout, LinkButton };
