@@ -2,15 +2,19 @@ import React, { useContext } from "react";
 import { Col, Empty, Form, Input, Row, Table } from "antd";
 import formatDate from "../../utils/formatDate";
 import PlanetsContext from "../../context/PlanetsContext";
-import { Container, FiltersContainer, FiltersPanel } from "./styles";
+import { Container, FiltersContainer, FiltersPanel, FilmsTag } from "./styles";
+import FilmsContext from "../../context/FilmsContext";
 
 function Home() {
   const { filteredPlanets } = useContext(PlanetsContext);
+  const { allFilms } = useContext(FilmsContext);
+
   const columns = [
     {
       title: "Nome",
       dataIndex: "name",
       key: "name",
+      fixed: "left",
     },
     {
       title: "Período de Rotação",
@@ -56,10 +60,12 @@ function Home() {
       title: "Filmes",
       dataIndex: "films",
       key: "films",
-      render: (text, _movies, index) => {
-        return text.map((movie) => (
-          <span key={`${movie}${index}`}>{movie}</span>
-        ));
+      render: (urls) => {
+        var intersection = allFilms.filter((film) => {
+          return urls.indexOf(film.url) > -1;
+        });
+
+        return intersection.map((film) => <FilmsTag key="film" >{film.title}</FilmsTag>);
       },
     },
     {
@@ -95,13 +101,15 @@ function Home() {
           </Form>
         </FiltersPanel>
       </FiltersContainer>
-      Home{" "}
       <Table
         dataSource={filteredPlanets}
         columns={columns}
+        scroll={{ y: 500, x: 1200 }}
         locale={{
           emptyText: <Empty description="Nenhum planeta encontrado 🤖" />,
         }}
+        bordered
+        pagination={{position: 'bottomCenter'}}
       />
     </Container>
   );
