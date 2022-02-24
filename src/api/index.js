@@ -4,7 +4,8 @@ const BASE_ENDPOINT = "https://swapi-trybe.herokuapp.com/api";
 
 const fetchPlanets = async () => {
   try {
-    const planetsData = await fetch(`${BASE_ENDPOINT}/planets/`);
+    const response = await fetch(`${BASE_ENDPOINT}/planets/`);
+    const planetsData = await response.json();
     return [planetsData, null];
   } catch {
     notification.error({
@@ -14,4 +15,17 @@ const fetchPlanets = async () => {
   }
 };
 
-export default fetchPlanets;
+const fetchFilms = async () => {
+  try {
+    const response = await fetch(`${BASE_ENDPOINT}/films/`);
+    const filmsData = await response.json();
+    return [filmsData, null];
+  } catch {
+    notification.error({
+      message: "Ocorreu um erro ao tentar listar os filmes",
+    });
+    return [null, true];
+  }
+};
+
+export { fetchPlanets, fetchFilms };
