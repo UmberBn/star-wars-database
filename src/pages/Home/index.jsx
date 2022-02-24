@@ -1,5 +1,6 @@
-import { Col, Empty, Form, Input, Row, Table } from "antd";
 import React, { useContext } from "react";
+import { Col, Empty, Form, Input, Row, Table } from "antd";
+import formatDate from "../../utils/formatDate";
 import PlanetsContext from "../../context/PlanetsContext";
 import { Container, FiltersContainer, FiltersPanel } from "./styles";
 
@@ -65,11 +66,13 @@ function Home() {
       title: "Criado",
       dataIndex: "created",
       key: "created",
+      render: (date) => <p>{formatDate(date)}</p>,
     },
     {
       title: "Editado",
       dataIndex: "edited",
       key: "edited",
+      render: (date) => <p>{formatDate(date)}</p>,
     },
     {
       title: "Link",
