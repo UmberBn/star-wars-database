@@ -1,14 +1,15 @@
-import React from 'react';
-import { Provider } from './PlanetsContext'
+import React from "react";
 import PropTypes from "prop-types";
+import { Provider as PlanetsProvider } from "./PlanetsContext";
+import { Provider as FilmsProvider } from "./FilmsContext";
 
 // import { Container } from './styles';
 
 function GlobalContext({ children }) {
   return (
-    <Provider>
-      { children }
-    </Provider>
+    <PlanetsProvider>
+      <FilmsProvider>{children}</FilmsProvider>
+    </PlanetsProvider>
   );
 }
 
