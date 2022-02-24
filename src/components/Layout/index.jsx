@@ -27,7 +27,19 @@ function Layout({ children }) {
       <Content>
         <CenterContent>{children}</CenterContent>
       </Content>
-      <Footer></Footer>
+      <Footer>
+        <p>
+          Feito pelo padawan{" "}
+          <a
+            href="https://github.com/UmberBn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            UmberBn
+          </a>,{" "}
+          que a força esteja com você!
+        </p>
+      </Footer>
     </Container>
   );
 }

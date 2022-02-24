@@ -53,5 +53,9 @@ export const CenterContent = styled.div`
 `;
 
 export const Footer = styled(Layout.Footer)`
-  background-color: blue;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
