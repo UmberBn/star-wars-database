@@ -1,10 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Container } from "./styles";
+import { Container, Header, Content, Footer, Menu, MenuItem, Logo } from "./styles";
 
 function Layout({ children }) {
-  return <Container>{children}</Container>;
+  return (
+    <Container>
+      <Header>
+        <Logo>
+          <img src="/star-wars-logo.svg" width={80}/>
+        </Logo>
+        <Menu mode="horizontal" defaultSelectedKeys={["planets"]}>
+          <MenuItem key="planets">Planetas</MenuItem>
+          <MenuItem key="characters">Personagens</MenuItem>
+        </Menu>
+      </Header>
+      <Content>{children}</Content>
+      <Footer></Footer>
+    </Container>
+  );
 }
 
 Layout.propTypes = {
