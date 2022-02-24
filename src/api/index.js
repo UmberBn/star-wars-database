@@ -2,9 +2,11 @@ import { notification } from "antd";
 
 const BASE_ENDPOINT = "https://swapi-trybe.herokuapp.com/api";
 
-const fetchPlanets = async () => {
+const fetchPlanets = async (params = {}) => {
   try {
-    const response = await fetch(`${BASE_ENDPOINT}/planets/`);
+    let url = new URL(`${BASE_ENDPOINT}/planets/`)
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    const response = await fetch(url);
     const planetsData = await response.json();
     return [planetsData, null];
   } catch {
@@ -13,8 +15,7 @@ const fetchPlanets = async () => {
     });
     return [null, true];
   }
-};
-
+}
 const fetchFilms = async () => {
   try {
     const response = await fetch(`${BASE_ENDPOINT}/films/`);

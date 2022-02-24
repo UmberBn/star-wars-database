@@ -6,8 +6,9 @@ import { Container, FiltersContainer, FiltersPanel, FilmsTag } from "./styles";
 import FilmsContext from "../../context/FilmsContext";
 
 function Home() {
-  const { filteredPlanets } = useContext(PlanetsContext);
-  const { allFilms } = useContext(FilmsContext);
+  const { filteredPlanets, fetchingPlanets, currentPage, setCurrentPage } =
+    useContext(PlanetsContext);
+  const { allFilms, fetchingFilms } = useContext(FilmsContext);
 
   const columns = [
     {
@@ -65,7 +66,9 @@ function Home() {
           return urls.indexOf(film.url) > -1;
         });
 
-        return intersection.map((film) => <FilmsTag key="film" >{film.title}</FilmsTag>);
+        return intersection.map((film) => (
+          <FilmsTag key="film">{film.title}</FilmsTag>
+        ));
       },
     },
     {
@@ -109,7 +112,16 @@ function Home() {
           emptyText: <Empty description="Nenhum planeta encontrado 🤖" />,
         }}
         bordered
-        pagination={{position: 'bottomCenter'}}
+        pagination={{
+          position: ["bottomCenter"],
+          current: currentPage,
+          pageSize: 10,
+          total: 60,
+          hideOnSinglePage: false,
+          onChange: (page) => setCurrentPage(page),
+          showSizeChanger: false,
+        }}
+        loading={fetchingFilms || fetchingPlanets}
       />
     </Container>
   );
