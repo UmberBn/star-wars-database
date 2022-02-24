@@ -41,7 +41,15 @@ export const MenuItem = styled(AntdMenu.Item)`
 
 export const Content = styled(Layout.Content)`
   min-height: 80vh;
+  background-color: #222d2e;
   padding: 25px;
+`;
+
+export const CenterContent = styled.div`
+  min-height: 280px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 5px;
 `;
 
 export const Footer = styled(Layout.Footer)`
