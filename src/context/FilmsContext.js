@@ -15,7 +15,6 @@ function Provider({ children }) {
       setFetcthingFilms(false);
       if (filmsData && filmsData?.results?.length > 0) {
         setAllFilms([...filmsData.results]);
-        console.log(filmsData.results);
       }
     };
     getFilms();

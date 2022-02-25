@@ -20,21 +20,28 @@ function Provider({ children }) {
 
   const [allPlanets, setAllPlanets] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPlanets, setTotalPlanets] = useState(0);
   const [filters, setFilters] = useState(FILTERS_INITIAL_STRUCTURE);
-  const [fetchingPlanets, setFetcthingPlanets] = useState(false);
+  const [fetchingPlanets, setFetchingPlanets] = useState(false);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
     const getPlanets = async () => {
-      setFetcthingPlanets(true);
-      const [planetsData] = await fetchPlanets({ page: currentPage });
-      setFetcthingPlanets(false);
+      setFetchingPlanets(true);
+      const querys = filters?.filterByName?.name
+        ? { page: currentPage, search: filters.filterByName.name }
+        : { page: currentPage };
+      const [planetsData] = await fetchPlanets(querys);
+      setTotalPlanets(planetsData?.count || 0);
+      setFetchingPlanets(false);
       if (planetsData && planetsData?.results?.length > 0) {
         setAllPlanets([...planetsData.results]);
+      } else {
+        setAllPlanets([]);
       }
     };
     getPlanets();
-  }, [currentPage]);
+  }, [currentPage, filters.filterByName.name]);
 
   useEffect(() => {
     setFilteredPlanets(allPlanets);
@@ -46,11 +53,13 @@ function Provider({ children }) {
     fetchingPlanets,
     filteredPlanets,
     currentPage,
+    totalPlanets,
     setAllPlanets,
     setFilters,
-    setFetcthingPlanets,
+    setFetchingPlanets,
     setFilteredPlanets,
     setCurrentPage,
+    setTotalPlanets,
   };
   return (
     <PlanetsContext.Provider value={data}>{children}</PlanetsContext.Provider>

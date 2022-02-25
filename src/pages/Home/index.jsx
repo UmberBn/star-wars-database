@@ -8,8 +8,15 @@ import FilmsContext from "../../context/FilmsContext";
 import { LinkButton } from "../../components";
 
 function Home() {
-  const { filteredPlanets, fetchingPlanets, currentPage, setCurrentPage } =
-    useContext(PlanetsContext);
+  const {
+    filteredPlanets,
+    fetchingPlanets,
+    currentPage,
+    setCurrentPage,
+    filters,
+    setFilters,
+    totalPlanets,
+  } = useContext(PlanetsContext);
   const { allFilms, fetchingFilms } = useContext(FilmsContext);
 
   const columns = [
@@ -105,7 +112,17 @@ function Home() {
             <Row>
               <Col span={8}>
                 <Form.Item label="Nome" name="name" wrapperCol={12}>
-                  <Input />
+                  <Input
+                    value={filters.filterByName.name}
+                    onChange={(event) =>
+                     { setFilters({
+                        ...filters,
+                        filterByName: { name: event.target.value },
+                      })
+                      setCurrentPage(1)
+                    }
+                    }
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -124,7 +141,7 @@ function Home() {
           position: ["bottomCenter"],
           current: currentPage,
           pageSize: 10,
-          total: 60,
+          total: totalPlanets,
           hideOnSinglePage: false,
           onChange: (page) => setCurrentPage(page),
           showSizeChanger: false,
