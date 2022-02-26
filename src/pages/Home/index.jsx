@@ -6,6 +6,7 @@ import PlanetsContext from "../../context/PlanetsContext";
 import { Container, FiltersContainer, FiltersPanel, FilmsTag } from "./styles";
 import FilmsContext from "../../context/FilmsContext";
 import { LinkButton } from "../../components";
+import DynamicFilters from "../../components/DynamicFilters";
 
 function Home() {
   const {
@@ -104,26 +105,38 @@ function Home() {
       },
     },
   ];
+
   return (
     <Container>
       <FiltersContainer bordered={false} defaultActiveKey={["1"]}>
         <FiltersPanel header="Filtros" key="1">
-          <Form layout="vertical" wrapperCol={6}>
+          <Form layout="vertical">
             <Row>
               <Col span={8}>
-                <Form.Item label="Nome" name="name" wrapperCol={12}>
+                <Form.Item label="Nome" name="name">
                   <Input
                     value={filters.filterByName.name}
-                    onChange={(event) =>
-                     { setFilters({
+                    onChange={(event) => {
+                      setFilters({
                         ...filters,
                         filterByName: { name: event.target.value },
-                      })
-                      setCurrentPage(1)
-                    }
-                    }
+                      });
+                      setCurrentPage(1);
+                    }}
                   />
                 </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                {filters.filterByNumericValues.map((filter, index) => (
+                  <DynamicFilters
+                    key={index}
+                    value={filter.value}
+                    index={index}
+                    comparison={filter.comparison}
+                  />
+                ))}
               </Col>
             </Row>
           </Form>
