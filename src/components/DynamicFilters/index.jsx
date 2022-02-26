@@ -124,7 +124,7 @@ function DynamicFilters({ value, index, column, comparison }) {
 
 DynamicFilters.propTypes = {
   comparison: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.number,
   index: PropTypes.number,
   column: PropTypes.string.isRequired,
 };

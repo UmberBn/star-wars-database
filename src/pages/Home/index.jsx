@@ -97,7 +97,7 @@ function Home() {
         });
 
         return intersection.map((film) => (
-          <FilmsTag key="film">{film.title}</FilmsTag>
+          <FilmsTag key={film.title}>{film.title}</FilmsTag>
         ));
       },
     },
