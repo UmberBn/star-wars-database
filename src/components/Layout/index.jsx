@@ -11,17 +11,31 @@ import {
   Logo,
   CenterContent,
 } from "./styles";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Layout({ children }) {
+  const history = useLocation();
+  const navigate = useNavigate();
+  console.log(history);
+  const markCurrentActiveMenu = () => {
+    if (history.pathname.includes("planets")) {
+      return "planets";
+    }
+    return "home";
+  };
   return (
     <Container>
       <Header>
         <Logo>
           <img src="/star-wars-logo.svg" width={80} />
         </Logo>
-        <Menu mode="horizontal" defaultSelectedKeys={["planets"]}>
-          <MenuItem key="planets">Planetas</MenuItem>
-          <MenuItem key="characters">Personagens</MenuItem>
+        <Menu mode="horizontal" selectedKeys={[markCurrentActiveMenu()]}>
+          <MenuItem key="home" onClick={() => navigate("/")}>
+            Home
+          </MenuItem>
+          <MenuItem key="planets" onClick={() => navigate("/planets")}>
+            Planetas
+          </MenuItem>
         </Menu>
       </Header>
       <Content>
@@ -36,8 +50,8 @@ function Layout({ children }) {
             rel="noopener noreferrer"
           >
             UmberBn
-          </a>,{" "}
-          que a força esteja com você!
+          </a>
+          , que a força esteja com você!
         </p>
       </Footer>
     </Container>

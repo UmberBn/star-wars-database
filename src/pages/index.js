@@ -1,2 +1,3 @@
-import Home from "./Home"
-export { Home };
+import Home from "./Home";
+import Planets from "./Planets";
+export { Home, Planets };
