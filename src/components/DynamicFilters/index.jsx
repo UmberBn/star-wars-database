@@ -58,7 +58,7 @@ function DynamicFilters({ value, index, column, comparison }) {
     });
   };
 
-  const currenOptions = () => {
+  const currentOptions = () => {
     const selectedOptions = filters.filterByNumericValues.map(
       (filter) => filter.column
     );
@@ -81,7 +81,7 @@ function DynamicFilters({ value, index, column, comparison }) {
             style={{ width: "30%" }}
             value={column}
           >
-            {currenOptions().map((option) => (
+            {currentOptions().map((option) => (
               <Select.Option value={option} key={option}>
                 {option}
               </Select.Option>

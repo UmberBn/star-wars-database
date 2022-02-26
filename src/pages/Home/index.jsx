@@ -1,5 +1,16 @@
 import React, { useContext } from "react";
-import { Button, Col, Empty, Form, Input, Row, Table, Tooltip } from "antd";
+import {
+  Button,
+  Col,
+  Empty,
+  Form,
+  Input,
+  Radio,
+  Row,
+  Select,
+  Table,
+  Tooltip,
+} from "antd";
 import formatDate from "../../utils/formatDate";
 import getIdFromUrl from "../../utils/getIdFromUrl";
 import PlanetsContext from "../../context/PlanetsContext";
@@ -24,7 +35,8 @@ function Home() {
     setFilters,
     totalPlanets,
     avaiableFilterOptions,
-    applyNumericFilters
+    applyNumericFilters,
+    DEFAULT_OPTIONS_ORDER,
   } = useContext(PlanetsContext);
   const { allFilms, fetchingFilms } = useContext(FilmsContext);
 
@@ -134,6 +146,46 @@ function Home() {
                   />
                 </Form.Item>
               </Col>
+              <Col xs={{ span: 24 }} md={{ offset: 2, span: 12 }}>
+                <Form.Item label="Ordenar por:">
+                  <Input.Group>
+                    <Form.Item noStyle>
+                      <Select
+                        placeholder="Coluna"
+                        style={{ width: "40%" }}
+                        value={filters.order.column}
+                        onChange={(value) =>
+                          setFilters({
+                            ...filters,
+                            order: { ...filters.order, column: value },
+                          })
+                        }
+                      >
+                        {DEFAULT_OPTIONS_ORDER.map((option) => (
+                          <Select.Option value={option} key={option}>
+                            {option}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item>
+                      <Radio.Group
+                        name="order"
+                        value={filters.order.sort}
+                        onChange={(e) =>
+                          setFilters({
+                            ...filters,
+                            order: { ...filters.order, sort: e.target.value },
+                          })
+                        }
+                      >
+                        <Radio value="ASC">Ascendente</Radio>
+                        <Radio value="DESC">Descendente</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+                  </Input.Group>
+                </Form.Item>
+              </Col>
             </Row>
             <Tooltip title="Permite filtrar os planetas que estão atualmente sendo mostrados na tabela por seus atributos.">
               <Subtitle>Filtrar por atributos na tabela</Subtitle>
@@ -156,7 +208,9 @@ function Home() {
             )}
             <Row>
               <Col>
-                <Button type="primary" onClick={applyNumericFilters}>Filtrar</Button>
+                <Button type="primary" onClick={applyNumericFilters}>
+                  Filtrar
+                </Button>
               </Col>
             </Row>
           </Form>

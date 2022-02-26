@@ -22,9 +22,13 @@ function Provider({ children }) {
         value: 0,
       },
     ],
+    order: {
+      column: "name",
+      sort: "ASC",
+    },
   };
 
-  const DEFAULT_OPTIONS = [
+  const DEFAULT_OPTIONS_FILTERS = [
     "population",
     "orbital_period",
     "diameter",
@@ -32,15 +36,45 @@ function Provider({ children }) {
     "surface_water",
   ];
 
+  const DEFAULT_OPTIONS_ORDER = ["name", ...DEFAULT_OPTIONS_FILTERS];
+
   const [allPlanets, setAllPlanets] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPlanets, setTotalPlanets] = useState(0);
   const [filters, setFilters] = useState(FILTERS_INITIAL_STRUCTURE);
-  const [avaiableFilterOptions, setAvaiableFilterOptions] =
-    useState(DEFAULT_OPTIONS);
+  const [avaiableFilterOptions, setAvaiableFilterOptions] = useState(
+    DEFAULT_OPTIONS_FILTERS
+  );
   const [fetchingPlanets, setFetchingPlanets] = useState(false);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
+  const sortStrings = (a, b) => {
+    if (filters.order.sort === "ASC") {
+      if (a[filters.order.column] > b[filters.order.column]) {
+        return 1;
+      }
+      if (a[filters.order.column] < b[filters.order.column]) {
+        return -1;
+      }
+
+      return 0;
+    } else {
+      if (a[filters.order.column] < b[filters.order.column]) {
+        return 1;
+      }
+      if (a[filters.order.column] > b[filters.order.column]) {
+        return -1;
+      }
+    }
+  };
+
+  const sortNumbers = (a, b) => {
+    if (filters.order.sort === "ASC") {
+      return a[filters.order.column] - b[filters.order.column];
+    } else {
+      return b[filters.order.column] - a[filters.order.column];
+    }
+  };
   useEffect(() => {
     const getPlanets = async () => {
       setFetchingPlanets(true);
@@ -51,6 +85,15 @@ function Provider({ children }) {
       setTotalPlanets(planetsData?.count || 0);
       setFetchingPlanets(false);
       if (planetsData && planetsData?.results?.length > 0) {
+        if (
+          planetsData.results.every((item) => isNaN(item[filters.order.column]))
+        ) {
+          planetsData.results.sort((a, b) => sortStrings(a, b));
+        } else {
+          planetsData.results.sort((a, b) => {
+            return sortNumbers(a, b);
+          });
+        }
         setAllPlanets([...planetsData.results]);
         setFilteredPlanets([...planetsData.results]);
       } else {
@@ -59,7 +102,7 @@ function Provider({ children }) {
       }
     };
     getPlanets();
-  }, [currentPage, filters.filterByName.name]);
+  }, [currentPage, filters.filterByName.name, filters.order]);
 
   useEffect(() => {
     if (
@@ -78,7 +121,7 @@ function Provider({ children }) {
         ],
       });
     }
-  }, [allPlanets, filters]);
+  }, [filters]);
 
   const applyNumericFilters = () => {
     const aux = [...allPlanets];
@@ -134,6 +177,7 @@ function Provider({ children }) {
     setTotalPlanets,
     setAvaiableFilterOptions,
     applyNumericFilters,
+    DEFAULT_OPTIONS_ORDER,
   };
   return (
     <PlanetsContext.Provider value={data}>{children}</PlanetsContext.Provider>
