@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Col, Empty, Form, Input, Row, Table, Tooltip } from "antd";
+import { Button, Col, Empty, Form, Input, Row, Table, Tooltip } from "antd";
 import formatDate from "../../utils/formatDate";
 import getIdFromUrl from "../../utils/getIdFromUrl";
 import PlanetsContext from "../../context/PlanetsContext";
@@ -24,6 +24,7 @@ function Home() {
     setFilters,
     totalPlanets,
     avaiableFilterOptions,
+    applyNumericFilters
   } = useContext(PlanetsContext);
   const { allFilms, fetchingFilms } = useContext(FilmsContext);
 
@@ -139,7 +140,7 @@ function Home() {
             </Tooltip>
             {filters.filterByNumericValues.map(
               (filter, index) =>
-                index < avaiableFilterOptions.length  && (
+                index < avaiableFilterOptions.length && (
                   <Row key={index}>
                     <Col xs={{ span: 24 }} md={{ span: 8 }}>
                       <DynamicFilters
@@ -153,6 +154,11 @@ function Home() {
                   </Row>
                 )
             )}
+            <Row>
+              <Col>
+                <Button type="primary" onClick={applyNumericFilters}>Filtrar</Button>
+              </Col>
+            </Row>
           </Form>
         </FiltersPanel>
       </FiltersContainer>

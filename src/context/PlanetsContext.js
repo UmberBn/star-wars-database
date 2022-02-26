@@ -52,15 +52,16 @@ function Provider({ children }) {
       setFetchingPlanets(false);
       if (planetsData && planetsData?.results?.length > 0) {
         setAllPlanets([...planetsData.results]);
+        setFilteredPlanets([...planetsData.results]);
       } else {
         setAllPlanets([]);
+        setFilteredPlanets([]);
       }
     };
     getPlanets();
   }, [currentPage, filters.filterByName.name]);
 
   useEffect(() => {
-    setFilteredPlanets(allPlanets);
     if (
       filters.filterByNumericValues[filters.filterByNumericValues.length - 1]
         .column &&
@@ -79,6 +80,44 @@ function Provider({ children }) {
     }
   }, [allPlanets, filters]);
 
+  const applyNumericFilters = () => {
+    const aux = [...allPlanets];
+
+    const removePlanet = (planet) => {
+      const planetIndex = aux.findIndex(
+        (auxPlanet) => auxPlanet.name === planet.name
+      );
+
+      if (planetIndex > -1) {
+        aux.splice(planetIndex, 1);
+      }
+    };
+
+    allPlanets.forEach((planet) => {
+      filters.filterByNumericValues.forEach(({ column, comparison, value }) => {
+        if (planet[column] === "unknown") {
+          removePlanet(planet, column);
+        } else if (
+          comparison === "maior que" &&
+          !(Number(planet[column]) > value)
+        ) {
+          removePlanet(planet, column);
+        } else if (
+          comparison === "menor que" &&
+          !(Number(planet[column]) < value)
+        ) {
+          removePlanet(planet, column);
+        } else if (
+          comparison === "igual a" &&
+          !(Number(planet[column]) === value)
+        ) {
+          removePlanet(planet, column);
+        }
+      });
+    });
+
+    setFilteredPlanets(aux);
+  };
   const data = {
     allPlanets,
     filters,
@@ -94,6 +133,7 @@ function Provider({ children }) {
     setCurrentPage,
     setTotalPlanets,
     setAvaiableFilterOptions,
+    applyNumericFilters,
   };
   return (
     <PlanetsContext.Provider value={data}>{children}</PlanetsContext.Provider>
