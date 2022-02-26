@@ -13,3 +13,8 @@ export const FiltersPanel = styled(Collapse.Panel)``;
 export const FilmsTag = styled.p`
   border-bottom: 1px solid blue;
 `;
+
+export const Subtitle = styled.span`
+  display: inline-block;
+  margin-bottom: 10px;
+`;

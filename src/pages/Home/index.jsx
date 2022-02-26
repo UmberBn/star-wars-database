@@ -1,12 +1,18 @@
 import React, { useContext } from "react";
-import { Col, Empty, Form, Input, Row, Table } from "antd";
+import { Col, Empty, Form, Input, Row, Table, Tooltip } from "antd";
 import formatDate from "../../utils/formatDate";
 import getIdFromUrl from "../../utils/getIdFromUrl";
 import PlanetsContext from "../../context/PlanetsContext";
-import { Container, FiltersContainer, FiltersPanel, FilmsTag } from "./styles";
 import FilmsContext from "../../context/FilmsContext";
 import { LinkButton } from "../../components";
 import DynamicFilters from "../../components/DynamicFilters";
+import {
+  Container,
+  FiltersContainer,
+  FiltersPanel,
+  FilmsTag,
+  Subtitle,
+} from "./styles";
 
 function Home() {
   const {
@@ -17,6 +23,7 @@ function Home() {
     filters,
     setFilters,
     totalPlanets,
+    avaiableFilterOptions,
   } = useContext(PlanetsContext);
   const { allFilms, fetchingFilms } = useContext(FilmsContext);
 
@@ -112,7 +119,7 @@ function Home() {
         <FiltersPanel header="Filtros" key="1">
           <Form layout="vertical">
             <Row>
-              <Col span={8}>
+              <Col xs={{ span: 24 }} md={{ span: 8 }}>
                 <Form.Item label="Nome" name="name">
                   <Input
                     value={filters.filterByName.name}
@@ -127,18 +134,25 @@ function Home() {
                 </Form.Item>
               </Col>
             </Row>
-            <Row>
-              <Col span={24}>
-                {filters.filterByNumericValues.map((filter, index) => (
-                  <DynamicFilters
-                    key={index}
-                    value={filter.value}
-                    index={index}
-                    comparison={filter.comparison}
-                  />
-                ))}
-              </Col>
-            </Row>
+            <Tooltip title="Permite filtrar os planetas que estão atualmente sendo mostrados na tabela por seus atributos.">
+              <Subtitle>Filtrar por atributos na tabela</Subtitle>
+            </Tooltip>
+            {filters.filterByNumericValues.map(
+              (filter, index) =>
+                index < avaiableFilterOptions.length  && (
+                  <Row key={index}>
+                    <Col xs={{ span: 24 }} md={{ span: 8 }}>
+                      <DynamicFilters
+                        key={index}
+                        value={filter.value}
+                        index={index}
+                        comparison={filter.comparison}
+                        column={filter.column}
+                      />
+                    </Col>
+                  </Row>
+                )
+            )}
           </Form>
         </FiltersPanel>
       </FiltersContainer>
