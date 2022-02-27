@@ -138,23 +138,25 @@ function Provider({ children }) {
 
     allPlanets.forEach((planet) => {
       filters.filterByNumericValues.forEach(({ column, comparison, value }) => {
-        if (planet[column] === "unknown") {
-          removePlanet(planet, column);
-        } else if (
-          comparison === "maior que" &&
-          !(Number(planet[column]) > value)
-        ) {
-          removePlanet(planet, column);
-        } else if (
-          comparison === "menor que" &&
-          !(Number(planet[column]) < value)
-        ) {
-          removePlanet(planet, column);
-        } else if (
-          comparison === "igual a" &&
-          !(Number(planet[column]) === value)
-        ) {
-          removePlanet(planet, column);
+        if (column && comparison && value) {
+          if (planet[column] === "unknown") {
+            removePlanet(planet, column);
+          } else if (
+            comparison === "maior que" &&
+            !(Number(planet[column]) > value)
+          ) {
+            removePlanet(planet, column);
+          } else if (
+            comparison === "menor que" &&
+            !(Number(planet[column]) < value)
+          ) {
+            removePlanet(planet, column);
+          } else if (
+            comparison === "igual a" &&
+            !(Number(planet[column]) === value)
+          ) {
+            removePlanet(planet, column);
+          }
         }
       });
     });
