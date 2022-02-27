@@ -24,6 +24,7 @@ import {
   FilmsTag,
   Subtitle,
 } from "./styles";
+import UnknownTag from "../../components/UnknownTag";
 
 function Home() {
   const {
@@ -51,41 +52,53 @@ function Home() {
       title: "Período de Rotação",
       dataIndex: "rotation_period",
       key: "rotation_period",
+      render: (rotation) =>
+        rotation === "unknown" ? <UnknownTag /> : rotation,
     },
     {
       title: "Período de Orbita",
       dataIndex: "orbital_period",
       key: "orbital_period",
+      render: (orbital) => (orbital === "unknown" ? <UnknownTag /> : orbital),
     },
     {
       title: "Diâmetro",
       dataIndex: "diameter",
       key: "diameter",
+      render: (diameter) =>
+        diameter === "unknown" ? <UnknownTag /> : diameter,
     },
     {
       title: "Clima",
       dataIndex: "climate",
       key: "climate",
+      render: (climate) => (climate === "unknown" ? <UnknownTag /> : climate),
     },
     {
       title: "Gravidade",
       dataIndex: "gravity",
       key: "gravity",
+      render: (gravity) => (gravity === "unknown" ? <UnknownTag /> : gravity),
     },
     {
       title: "Terreno",
       dataIndex: "terrain",
       key: "terrain",
+      render: (terrain) => (terrain === "unknown" ? <UnknownTag /> : terrain),
     },
     {
       title: "Água na superfície",
       dataIndex: "surface_water",
       key: "surface_water",
+      render: (surface_water) =>
+        surface_water === "unknown" ? <UnknownTag /> : surface_water,
     },
     {
       title: "População",
       dataIndex: "population",
       key: "population",
+      render: (population) =>
+        population === "unknown" ? <UnknownTag /> : population,
     },
     {
       title: "Filmes",
