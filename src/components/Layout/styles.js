@@ -53,9 +53,10 @@ export const CenterContent = styled.div`
 `;
 
 export const Footer = styled(Layout.Footer)`
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - 80vh - 64px)!important;
   background-color: black;
   color: white;
-  display: flex;
   align-items: center;
-  justify-content: center;
 `;
